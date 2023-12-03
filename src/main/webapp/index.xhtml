@@ -1,0 +1,37 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+    <h:head>
+
+    </h:head>
+    <h:body>
+        USUARIOS
+        <h:form>
+            <h:inputText value="#{jSFscore.nome}" />
+            (
+            <h:outputText value="#{jSFscore.num1}"  />
+            )
+            + (
+            <h:outputText value="#{jSFscore.num2}"  /> 
+            ) = <h:inputText value="#{jSFscore.resposta}" />
+            <h:commandButton value="Verificar" action="#{jSFscore.verificarSoma()}" /> <br/>
+            <h:outputText value="RESULTADO SOMA : #{jSFscore.resultado()}"/> 
+            <br/>
+            <br/>
+            <br/>
+            ########## SCORE ##########
+            <br/>
+
+        </h:form>
+        <h:dataTable value="#{jSFscore.all1}" var="usuario" >
+            <h:column>
+                <h:outputText value="#{usuario.nome}" /> :
+                <h:outputText value="#{usuario.score}" />
+                
+            </h:column>
+        </h:dataTable>
+
+    </h:body>
+</html>
