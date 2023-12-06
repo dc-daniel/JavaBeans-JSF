@@ -12,6 +12,7 @@ import java.util.Random;
 import javax.annotation.PostConstruct;
 
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import lombok.Data;
 
 @Named(value = "jSFscore")
@@ -26,6 +27,9 @@ public class JSFscore implements Serializable {
 
     @EJB
     private EJBscore ejbscore;
+
+    @Inject
+    private JSFranking jsfranking;
 
     private String nome = "";
     private int num1 = 0;
@@ -46,7 +50,7 @@ public class JSFscore implements Serializable {
     public void verificarSoma() {
 
         eJBusuario.verificar(nome, num1, num2, resposta);
-
+        FilaRanking();
         limpar();
         iniciarJogo();
 
@@ -65,6 +69,32 @@ public class JSFscore implements Serializable {
 
     public List<Usuario> getAll1() {
         return ejbscore.getAll();
+    }
+
+    private void FilaRanking() {
+        try {
+            List<Usuario> ranking = ejbscore.getAll();
+
+            if (obterlider(ranking)) {
+                StringBuilder stringBuilder = new StringBuilder("LIDERANCA: \n");
+                for (Usuario user : ranking) {
+                    stringBuilder.append(user.getNome()).append(" : ").append(user.getScore()).append(" PONTO \n");
+                }
+                jsfranking.send(stringBuilder.toString());
+            }
+        } catch (Exception e) {
+
+            System.out.println(e.getMessage());
+
+        }
+    }
+
+    private boolean obterlider(List<Usuario> aux) {
+        if (!aux.isEmpty()) {
+            Usuario primeiro = aux.get(0);
+            return primeiro.getNome().equals(this.nome);
+        }
+        return false;
     }
 
 }
